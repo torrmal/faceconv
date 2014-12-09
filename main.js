@@ -1,10 +1,13 @@
 // including required libraries
+
+convnetjs = require("convnetjs");
+Canvas = require('canvas');
+Image = Canvas.Image;
+
 require('./libs/dataCollector.js');
 require('./libs/imgToVol.js');
 
-var fs = require("fs");
-var convnetjs = require("convnetjs");
-var Canvas = require('canvas');
+
 
 console.log('starting convnetjs trainer...');
 
