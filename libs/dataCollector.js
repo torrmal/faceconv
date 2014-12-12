@@ -36,11 +36,14 @@ dataCollector = {
 
 		for (var box_i = 0; box_i < limitsData.faces.length; box_i++) {
 
-			var x = Math.floor(limitsData.faces[box_i].x*scaleW*1.15);
-			var y = Math.floor(limitsData.faces[box_i].y*scaleH*1.15);
-			var x1 = Math.ceil(x+limitsData.faces[box_i].w*scaleW*0.85);
-			var y1 =Math.ceil(y+limitsData.faces[box_i].h*scaleH*0.85);
-			scaledBoxes[box_i] = {x:x, y:y, x1:x1, y1:y1};
+			var x = Math.floor(limitsData.faces[box_i].x*scaleW);
+			var y = Math.floor(limitsData.faces[box_i].y*scaleH);
+			var x1 = Math.ceil(x+limitsData.faces[box_i].w*scaleW);
+			var y1 =Math.ceil(y+limitsData.faces[box_i].h*scaleH);
+			var d = parseInt(limitsData.faces[box_i].w*scaleW);
+			x = parseInt(x+limitsData.faces[box_i].w*scaleW*0.5);
+			y = parseInt(y+limitsData.faces[box_i].h*scaleH*0.5);
+			scaledBoxes[box_i] = {x:x, y:y, x1:x, y1:y, d:d};
 		}
 
 		// fill the boxes
@@ -48,7 +51,7 @@ dataCollector = {
 		for (var box_i = 0; box_i < limitsData.faces.length; box_i++) {
 			for(var x=scaledBoxes[box_i].x; x<=scaledBoxes[box_i].x1; x++) {
 				for(var y=scaledBoxes[box_i].y; y<=scaledBoxes[box_i].y1; y++) {
-					ret[x+y*volumeW] = box_i+1;
+					ret[x+y*volumeW] = scaledBoxes[box_i].d;
 				}
 			}
 		}
@@ -88,6 +91,44 @@ dataCollector = {
 		    	break;
 		    }
 		}
+	},
+	getImageDataFromFaceList:function(listLocation, callback, volumeW, targetVolumeW) {
+
+		var set = require(listLocation);
+
+		//var volumeW = 32; the input width
+		//var targetVolumeW = 16; the mask width
+
+		for (;;) {
+			var j = Math.floor(Math.random() * training_data.length);
+			// get one random sample from the json data
+			var tdata = training_data[j];
+			var image = tdata['image']; // the the image name
+			var faces = tdata['faces'];
+
+			for (var face_i = 0; face_i<faces.length; face_i++) {
+				var limits = tdata['faces'][face_i]['loc'];
+				console.log(limits);
+
+				var faceData = imgToVol.getImageDataFromSrc('images/'+image, volumeW);
+				return;
+			}
+			// create a NN input volume from the image
+			var imageData = imgToVol.getImageDataFromSrc('images/'+image, volumeW);
+			// remember origianl dimensions, which we need to calculate what to resize the faces squares in the json training data
+			tdata.width0 = imageData.width;
+			tdata.height0 = imageData.height;
+			tdata.targetVolumeW = targetVolumeW;
+			tdata.targetData = this.createTargetFromLimits(tdata, targetVolumeW);
+			tdata.vol = imgToVol.getVolumeFromImageData(imageData.data, volumeW);
+			tdata.imageData = imageData.data;
+
+		    if(!callback(tdata)){
+		    	console.log('ok');
+		    	break;
+		    }
+		}
 	}
+
 }
 

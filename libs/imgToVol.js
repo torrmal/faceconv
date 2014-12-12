@@ -2,7 +2,7 @@
 
 imgToVol = {
 	// get iamge Data from src and scale to maxWidth
-	getImageDataFromSrc: function(src, maxWidth) {
+	getImageDataFromSrc: function(src, maxWidth, limits) {
 		var img = new Image;
 		img.src = src;
 		var width = img.width;

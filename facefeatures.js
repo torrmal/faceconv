@@ -17,9 +17,8 @@ var maskWH = 16 // the output of the NN will be a mask of 16x16
 // defining the neural network, you can play with this definition
 layer_defs = [];
 layer_defs.push({type:'input', out_sx:inputWH, out_sy:inputWH, out_depth:3});
-layer_defs.push({type:'conv', sx:10, filters:6, stride:3, pad:1, activation:'relu'});
-layer_defs.push({type:'fc', num_neurons:256, activation:'relu'});
-layer_defs.push({type:'fc', num_neurons:256, activation:'relu'});
+layer_defs.push({type:'conv', sx:10, filters:4, stride:3, pad:1, activation:'relu'});
+layer_defs.push({type:'conv', sx:10, filters:4, stride:3, pad:2, activation:'relu'});
 layer_defs.push({type:'regression', num_neurons:maskWH*maskWH});
 
 
@@ -47,6 +46,6 @@ var dataIterator = function(trainData){
 }
 
 // iterate over all images in json/all.js and learn how to create a mask
-dataCollector.getImageDataFromList('json/all.js', dataIterator, inputWH, maskWH);
+dataCollector.getImageDataFromFaceList('json/facefeatures.js', dataIterator, inputWH, maskWH);
 
 
