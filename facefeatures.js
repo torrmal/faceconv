@@ -1,8 +1,8 @@
 // including required libraries
-
+JSON = require("JSON");
 convnetjs = require("convnetjs");
 fs = require('fs');
-md5= require('md5');
+md5= require('MD5');
 Canvas = require('canvas');
 Image = Canvas.Image;
 var argv = require('minimist')(process.argv.slice(2));
@@ -30,7 +30,6 @@ net = new convnetjs.Net();
 net.makeLayers(layer_defs);
 
 var errCount = 1;
-
 var iteration = 0;
 var fileSubName = argv.net+md5(JSON.stringify(layer_defs)+iterator);
 var fileName = 'trained/'+fileSubName+'.json';
