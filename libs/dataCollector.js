@@ -7,7 +7,7 @@ Image = Canvas.Image;
 dataCollector = {
 	
 
-	getGenderFullColorData32: function(callback){
+	getGenderFullColorData32: function(callback, net, trainer, logger){
 
 			request.get('http://sampler.rla.io/getsample', function(a,c,b){
 				//console.log(a);
@@ -18,7 +18,7 @@ dataCollector = {
 				}
 				catch(err) {
 					console.log(err);
-					dataCollector.getGenderFullColorData32(callback);
+					dataCollector.getGenderFullColorData32(callback, net, trainer, logger);
 					return;
 				}
 				var img = new Image;
@@ -31,11 +31,11 @@ dataCollector = {
 				tdata.vol = imgToVol.getVolumeFromImageData(imageData.data, img.width);
 				tdata.imageData = imageData.data;
 
-			    if(!callback(tdata)){
+			    if(!callback(tdata, net, trainer, logger)){
 			    	console.log('error');
 			    	
 			    }
-			    dataCollector.getGenderFullColorData32(callback);
+			    dataCollector.getGenderFullColorData32(callback, net, trainer, logger);
 			});
 			
 	

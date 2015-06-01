@@ -67,7 +67,8 @@ ssh $SSH_OPT $SSH_HOST PORT=$PORT MONGO_URL=$MONGO_URL ROOT_URL=$ROOT_URL APP_DI
 
 
 pushd /home/ubuntu/faceconv
-forever start facefeatures.js --net=simple_32_32_3 
+forever start facefeatures.js --net=simple_32_32_3 &
+forever start facefeatures.js --net=convnetjs_32_32_3 
 
 
 

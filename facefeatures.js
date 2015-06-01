@@ -53,9 +53,10 @@ catch(e){
 trainer = new convnetjs.SGDTrainer(net, trainerParams);
 
 // function to be called on every iteration, it takes an image and it learns from it
-var dataIterator = function(trainData){
+logger = function(err){
 	
 	iteration ++;
+	console.log(iteration);
 	if(iteration >= 20) {
 		var json = net.toJSON();
 		json = JSON.stringify(json);
@@ -65,20 +66,15 @@ var dataIterator = function(trainData){
 		fs.writeFileSync(resultFileName, resString);
 		iteration = 0;
 	}
-	console.log('real = '+trainData.targetData);
-	var prediction = net.forward(trainData.vol);
-	errCount = errCount*99 + Math.abs(prediction.w[0]-trainData.targetData);
-	errCount = errCount / 100; 
-	console.log('pred = '+((prediction.w[0]>0.5)?1:0));
-	console.log('err  = '+errCount);
 	
-	trainer.train(trainData.vol, [trainData.targetData]);
+	errCount = errCount*99 + err;
+	errCount = errCount / 100; 
 
 	console.log('======');
     return true;
 }
 
 // iterate over all images in json/all.js and learn how to create a mask
-dataCollector[iterator](dataIterator);
+dataCollector[iterator](dataIterator, net, trainer, logger);
 
 
