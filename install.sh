@@ -64,14 +64,12 @@ deploy )
 echo Deploying...
 
 ssh $SSH_OPT $SSH_HOST PORT=$PORT MONGO_URL=$MONGO_URL ROOT_URL=$ROOT_URL APP_DIR=$APP_DIR 'sudo su -'  <<'ENDSSH'
-
-
 pushd /home/ubuntu/faceconv
-forever start facefeatures.js --net=simple_32_32_3 &
+forever stopall
+forever stopall
+forever start facefeatures.js --net=simple_32_32_3 
 forever start facefeatures.js --net=convnetjs_32_32_3 
-
-
-
+forever start facefeatures.js --net=convnetjs_a_32_32_3 
 ENDSSH
 echo Your app is deployed and serving on: $ROOT_URL
 ;;
