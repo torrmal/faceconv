@@ -70,7 +70,8 @@ forever stopall
 forever start facefeatures.js --net=simple_32_32_3 
 forever start facefeatures.js --net=convnetjs_32_32_3 
 forever start facefeatures.js --net=convnetjs_a_32_32_3 
-forever start facefeatures.js --net=convnetjs_b_32_32_3 
+forever start facefeatures.js --net=convnetjs_b_32_32_3
+forever start facefeatures.js --net=convnetjs_64_64_3  
 ENDSSH
 echo Your app is deployed and serving on: $ROOT_URL
 ;;
