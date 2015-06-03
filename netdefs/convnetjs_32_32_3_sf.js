@@ -31,7 +31,7 @@ dataIterator = function(trainData, net, trainer, logger){
 	console.log('err  = '+err);
 	console.log('pred.cert  = '+prediction.w[pred]);
 	
-	trainer.train(trainData.vol, trainData.targetData);
+	trainer.train(trainData.vol, Math.round(trainData.targetData));
 	logger(err);
     return true;
 }

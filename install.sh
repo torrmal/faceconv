@@ -67,10 +67,7 @@ ssh $SSH_OPT $SSH_HOST PORT=$PORT MONGO_URL=$MONGO_URL ROOT_URL=$ROOT_URL APP_DI
 pushd /home/ubuntu/faceconv
 forever stopall
 forever stopall
-forever start facefeatures.js --net=simple_32_32_3 
-forever start facefeatures.js --net=convnetjs_32_32_3 
-forever start facefeatures.js --net=convnetjs_a_32_32_3 
-forever start facefeatures.js --net=convnetjs_b_32_32_3
+forever start facefeatures.js --net=convnetjs_32_32_3_sf 
 forever start facefeatures.js --net=convnetjs_64_64_3  
 ENDSSH
 echo Your app is deployed and serving on: $ROOT_URL
